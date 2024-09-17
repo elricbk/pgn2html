@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Шахматная партия</title>
+    <style>
+        @font-face {
+            font-family: 'ChessFont';
+            src: url(data:font/truetype;charset=utf-8;base64,{{ chess_font_base64 }}) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+
+        .chess-piece {
+            font-family: 'ChessFont', sans-serif;
+            vertical-align: text-bottom;
+            font-size: 1.3em;
+        }
+
+        .metadata {
+            margin-bottom: 20px;
+        }
+
+        .metadata h2 {
+            margin: 0;
+        }
+
+        .moves-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .moves-table th, .moves-table td {
+            border: 1px solid #dfdfdf;
+        }
+
+        .moves-table th {
+            text-align: left;
+            border-bottom: 2px solid #dfdfdf;
+        }
+
+        .moves-table td {
+            text-align: left;
+            border-top: 1px solid #dfdfdf;
+        }
+
+        .move-number {
+            text-align: center !important;
+            font-size: 1em !important;
+            font-weight: bold;
+            /* Fix for Firefox printing changing colors */
+            color: transparent;
+            text-shadow: 0 0 0px #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="metadata">
+        <h2>Белые: {{ white_player }} | Чёрные: {{ black_player }}</h2>
+        <p>{{ event }}, {{ date }}</p>
+    </div>
+
+    <table class="moves-table">
+        <thead>
+            <tr>
+                <th class="move-number">#</th>
+                <th>Белые</th>
+                <th>Чёрные</th>
+                <th class="move-number">#</th>
+                <th>Белые</th>
+                <th>Чёрные</th>
+                <th class="move-number">#</th>
+                <th>Белые</th>
+                <th>Чёрные</th>
+                <th class="move-number">#</th>
+                <th>Белые</th>
+                <th>Чёрные</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in range(25) %}
+            <tr>
+                {% for col in range(4) %}
+                {% set move_index = row + col * 25 %}
+                {% if move_index < moves|length %}
+                <td class="move-number">{{ move_index + 1 }}.</td>
+                <td>{{ moves[move_index].white | safe }}</td>
+                <td>{{ moves[move_index].black | safe }}</td>
+                {% else %}
+                <td></td>
+                <td></td>
+                <td></td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
